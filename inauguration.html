@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inauguration – Red Cross Ludhiana</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --red: #b22222;
+      --dark: #111111;
+      --border-gold: #c9a34f;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background: #000;
+      overflow: hidden;
+    }
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #333 0%, #000 55%);
+    }
+
+    /* Top header – all logos + text on left */
+    .gov-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      background: #ffffffee;
+      border-bottom: 3px solid var(--border-gold);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .gov-header-main {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .gov-header-logos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .gov-header-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.25;
+    }
+
+    .gov-header-text .line-top {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: #555;
+    }
+
+    .gov-header-text .line-mid {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    .gov-header-text .line-bottom {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--red);
+    }
+
+    .gov-header-right {
+      font-size: 12px;
+      color: #555;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .gov-logo,
+    .punjab-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    /* Text written on curtains */
+    .center-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 6;
+      text-align: center;
+      color: #fdf5e6;
+      pointer-events: none;
+    }
+    .center-inner {
+      max-width: 620px;
+      padding: 18px 26px;
+      pointer-events: auto;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+      cursor: pointer;
+    }
+    .center-inner h1 {
+      font-size: 28px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+    }
+    .center-inner h2 {
+      font-size: 24px;
+      color: #ffe4c4;
+      margin-bottom: 12px;
+    }
+    .center-inner p {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+    .center-inner .emph {
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .center-inner .meta {
+      margin-top: 8px;
+      font-size: 14px;
+      opacity: 0.95;
+    }
+    .center-inner .hint {
+      margin-top: 14px;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    /* Curtains */
+    .curtain {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      z-index: 4;
+      pointer-events: none;
+    }
+    .curtain-panel {
+      flex: 1;
+      background: radial-gradient(circle at top, #660000 0%, #3b0000 50%, #1a0000 100%);
+      box-shadow: inset 40px 0 80px rgba(0, 0, 0, 0.6);
+      position: relative;
+      transition: transform 1.8s ease-in-out;
+    }
+    .curtain-panel::before,
+    .curtain-panel::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(to bottom, #330000, #880000, #330000);
+      opacity: 0.85;
+    }
+    .curtain-left::before,
+    .curtain-left::after { left: 18%; }
+    .curtain-right::before,
+    .curtain-right::after { right: 18%; }
+    .curtain-left { border-right: 1px solid #000; }
+    .curtain-right { border-left: 1px solid #000; }
+
+    .stage.open .curtain-left  { transform: translateX(-100%); }
+    .stage.open .curtain-right { transform: translateX(100%); }
+
+    /* Rope on left side */
+    .rope-wrapper {
+      position: absolute;
+      left: 3%;
+      top: 20%;
+      bottom: 12%;
+      z-index: 7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: none;
+    }
+    .rope-line {
+      width: 4px;
+      flex: 1;
+      background: repeating-linear-gradient(
+        to bottom,
+        #d2b48c 0px,
+        #d2b48c 6px,
+        #b8860b 6px,
+        #b8860b 12px
+      );
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+      border-radius: 999px;
+    }
+    .rope-handle {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-gold);
+      background: linear-gradient(135deg, #f4f1e6, #e0d4b8);
+      color: #333;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+      pointer-events: auto;
+      transform-origin: top center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+    .rope-handle:hover {
+      background: linear-gradient(135deg, #fffaf0, #e6d8b8);
+      transform: translateY(2px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+    .rope-handle:active {
+      transform: translateY(5px);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Footer strip */
+    .footer-strip {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      background: #ffffffee;
+      border-top: 2px solid var(--border-gold);
+      padding: 4px 12px;
+      font-size: 11px;
+      text-align: center;
+      color: #444;
+    }
+
+    @media (max-width: 768px) {
+      .gov-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .gov-header-right {
+        align-self: flex-end;
+        text-align: right;
+        margin-top: 2px;
+      }
+      .gov-logo,
+      .punjab-logo {
+        height: 32px;
+      }
+      .center-inner {
+        padding: 10px 14px;
+        max-width: 90%;
+      }
+      .center-inner h1 { font-size: 22px; }
+      .center-inner h2 { font-size: 19px; }
+      .center-inner p { font-size: 13px; }
+      .center-inner .meta { font-size: 12px; }
+      .center-inner .hint { font-size: 11px; }
+      .rope-wrapper { left: 1%; top: 22%; bottom: 14%; }
+      .rope-handle { font-size: 9px; padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+
+    <!-- Header: logos + text all on left -->
+    <header class="gov-header">
+      <div class="gov-header-main">
+        <div class="gov-header-logos">
+          <img src="punjab_seal.png" alt="Government of Punjab" class="punjab-logo" />
+          <img src="ashoka_emblem.png" alt="State Emblem of India" class="gov-logo" />
+        </div>
+        <div class="gov-header-text">
+          <span class="line-top">Government of Punjab</span>
+          
+          <span class="line-bottom">Indian Red Cross Society, Ludhiana District Branch</span>
+        </div>
+      </div>
+      <div class="gov-header-right">
+        
+      </div>
+    </header>
+
+    <!-- Inauguration text on curtains -->
+    <div class="center-text">
+      <div class="center-inner" id="textArea">
+        <h1>Website Inauguration</h1>
+        <h2>Indian Red Cross Society<br/>Ludhiana District Branch</h2>
+        <p>
+          Inauguration of the official website of the Indian Red Cross Society, Ludhiana District Branch.
+        </p>
+        <p>
+          Inaugurated by
+          <span class="emph">Shri Gulab Chand Kataria, Hon’ble Governor of Punjab</span>
+        </p>
+        
+        
+      </div>
+    </div>
+
+    <!-- Curtains -->
+    <div class="curtain">
+      <div class="curtain-panel curtain-left"></div>
+      <div class="curtain-panel curtain-right"></div>
+    </div>
+
+    <!-- Rope -->
+    <div class="rope-wrapper">
+      <div class="rope-line"></div>
+      <button class="rope-handle" id="ropeHandle" aria-label="Pull to inaugurate">
+        PULL
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-strip">
+      inauguration ceremony of the Indian Red Cross Society, Ludhiana District Branch.
+    </div>
+  </div>
+
+  <script>
+    function goToSite() {
+      window.location.href = "https://redcrossludhiana.org/";
+    }
+    document.getElementById("ropeHandle").addEventListener("click", goToSite);
+    document.getElementById("textArea").addEventListener("click", goToSite);
+  </script>
+</body>
+</html>
